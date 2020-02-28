@@ -14,10 +14,10 @@ class MainPresenter @Inject constructor(
 
     override fun initialize(categories: ArrayList<CategoryWithProducts>) {
         this.categories = categories
-
+        updateCategories()
     }
 
-    override fun UpdateCategories() {
+    override fun updateCategories() {
         useCaseGetCategoryWithProducts.subscribe(object :
             DisposableSubscriber<CategoryWithProducts>() {
             override fun onComplete() {}

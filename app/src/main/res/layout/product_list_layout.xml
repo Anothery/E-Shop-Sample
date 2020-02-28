@@ -6,6 +6,7 @@
     android:padding="8dp">
 
     <ImageView
+        android:id="@+id/product_list_iv_photo"
         android:layout_width="80dp"
         android:layout_height="80dp" />
 

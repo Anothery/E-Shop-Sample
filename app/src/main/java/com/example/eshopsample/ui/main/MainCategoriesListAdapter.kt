@@ -35,7 +35,7 @@ class MainCategoriesListAdapter(
         layoutManager.initialPrefetchItemCount = categories[position].products.size
 
         holder.recyclerView.layoutManager = layoutManager
-        holder.recyclerView.adapter = MainProductsListAdapter(categories[position].products)
+        holder.recyclerView.adapter = MainProductsListAdapter(categories[position].products, context)
     }
 
     override fun getItemCount(): Int {

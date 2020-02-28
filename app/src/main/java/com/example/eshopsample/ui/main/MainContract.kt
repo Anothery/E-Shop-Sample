@@ -12,6 +12,6 @@ interface MainContract {
 
     interface Presenter : MVPPresenter<View> {
         fun initialize(categories: ArrayList<CategoryWithProducts>)
-        fun UpdateCategories()
+        fun updateCategories()
     }
 }
