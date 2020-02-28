@@ -9,21 +9,8 @@ class CategoryDataToDomainMapper : Mapper<CategoryEntity, Category>() {
             source.category_id,
             source.name,
             source.description,
-            source.sort_order,
-            source.meta_title,
-            source.meta_description,
-            source.meta_meta_keywordword,
-            source.language_id,
-            source.status,
-            source.parent_id,
-            source.column,
-            source.top,
-            source.category_store,
-            source.category_layout,
-            source.category_filter,
             source.image,
-            source.original_image,
-            source.categories
+            source.original_image
         )
     }
 }

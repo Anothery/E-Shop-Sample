@@ -9,4 +9,10 @@ class MapperModule {
     @Singleton
     @Provides
     fun provideCategoryEntityToDomainMapper() = CategoryDataToDomainMapper()
+
+    @Singleton
+    @Provides
+    fun provideProductDataToDomainMapper() = ProductDataToDomainMapper()
+
 }
+
