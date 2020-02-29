@@ -10,15 +10,15 @@ class UseCaseGetCategoryWithProducts @Inject constructor(
     private val repository: EShopRepository,
     subscribeScheduler: Scheduler,
     postExecutionScheduler: Scheduler
-) : UseCase<CategoryWithProducts>(subscribeScheduler, postExecutionScheduler) {
-    override fun createUseCase(): Flowable<CategoryWithProducts> {
+) : UseCase<List<CategoryWithProducts>>(subscribeScheduler, postExecutionScheduler) {
+    override fun createUseCase(): Flowable<List<CategoryWithProducts>> {
         return repository.getCategoriesList()
             .flattenAsFlowable { it }
             .flatMap { category ->
                 repository.getProductsByCategoryId(category.category_id)
                     .toFlowable()
                     .map { CategoryWithProducts(category, it) }
-            }
+            }.toList().toFlowable()
     }
 }
 

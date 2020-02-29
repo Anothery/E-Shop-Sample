@@ -25,7 +25,7 @@ class EShopDataRepository @Inject constructor(
 
     private fun getCategoryListFromCategoriesResponse(categoriesResponse: CategoriesResponse): List<CategoryEntity> {
         val list = ArrayList<CategoryEntity>()
-        for (item in categoriesResponse.data.toList()) {
+        for (item in categoriesResponse.data.toSortedMap().toList()) {
             if (item.second.isNotEmpty()) {
                 list.add(item.second[0])
             }

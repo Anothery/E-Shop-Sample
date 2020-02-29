@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshopsample.R
 import com.example.eshopsample.domain.model.CategoryWithProducts
+import com.example.eshopsample.domain.model.Product
 import com.example.eshopsample.utils.DecodeHTMLUtils
 
 
@@ -29,13 +30,25 @@ class MainCategoriesListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvCategoryName.text =
             DecodeHTMLUtils.decodeString(categories[position].category.name)
-        holder.recyclerView.setRecycledViewPool(viewPool)
 
+        if (categories[position].products.isEmpty()) {
+            holder.recyclerView.visibility = View.GONE
+            holder.tvNoProducts.visibility = View.VISIBLE
+        } else {
+            holder.recyclerView.visibility = View.VISIBLE
+            holder.tvNoProducts.visibility = View.GONE
+            setupRecyclerView(holder, categories[position].products)
+        }
+    }
+
+    private fun setupRecyclerView(holder: ViewHolder, products: List<Product>) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        layoutManager.initialPrefetchItemCount = categories[position].products.size
+        layoutManager.initialPrefetchItemCount = products.size
 
+        holder.recyclerView.setRecycledViewPool(viewPool)
         holder.recyclerView.layoutManager = layoutManager
-        holder.recyclerView.adapter = MainProductsListAdapter(categories[position].products, context)
+        holder.recyclerView.adapter =
+            MainProductsListAdapter(products, context)
     }
 
     override fun getItemCount(): Int {
@@ -45,5 +58,6 @@ class MainCategoriesListAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvCategoryName: TextView = itemView.findViewById(R.id.categories_list_tv_name)
         var recyclerView: RecyclerView = itemView.findViewById(R.id.categories_list_rv)
+        var tvNoProducts: TextView = itemView.findViewById(R.id.categories_list_no_products)
     }
 }

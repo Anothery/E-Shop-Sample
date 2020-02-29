@@ -2,6 +2,7 @@ package com.example.eshopsample.ui.main
 
 import android.util.Log
 import com.example.eshopsample.domain.model.CategoryWithProducts
+import com.example.eshopsample.domain.usecase.UseCaseGetCategories
 import com.example.eshopsample.domain.usecase.UseCaseGetCategoryWithProducts
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
@@ -19,12 +20,13 @@ class MainPresenter @Inject constructor(
 
     override fun updateCategories() {
         useCaseGetCategoryWithProducts.subscribe(object :
-            DisposableSubscriber<CategoryWithProducts>() {
-            override fun onComplete() {}
-
-            override fun onNext(item: CategoryWithProducts) {
-                categories.add(item)
+            DisposableSubscriber<List<CategoryWithProducts>>() {
+            override fun onComplete() {
                 view?.updateCategories()
+            }
+
+            override fun onNext(list: List<CategoryWithProducts>) {
+                categories.addAll(list)
             }
 
             override fun onError(t: Throwable?) {
