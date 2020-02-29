@@ -1,6 +1,6 @@
-package com.example.eshopsample.data.model.mapper
+package com.example.eshopsample.data.model.mapper.base
 
-abstract class Mapper<S, R> {
+abstract class BaseMapper<S, R>{
     abstract fun map(source: S): R
 
     fun map(sourceList: List<S>): List<R> {

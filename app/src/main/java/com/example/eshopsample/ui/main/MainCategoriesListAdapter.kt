@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eshopsample.R
 import com.example.eshopsample.domain.model.CategoryWithProducts
 import com.example.eshopsample.domain.model.Product
+import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.utils.DecodeHTMLUtils
 
 
 class MainCategoriesListAdapter(
     private val categories: ArrayList<CategoryWithProducts>,
-    private val context: Context
+    private val context: Context,
+    private val presenter: MainContract.Presenter
 ) :
     RecyclerView.Adapter<MainCategoriesListAdapter.ViewHolder>() {
 
@@ -41,14 +43,14 @@ class MainCategoriesListAdapter(
         }
     }
 
-    private fun setupRecyclerView(holder: ViewHolder, products: List<Product>) {
+    private fun setupRecyclerView(holder: ViewHolder, products: List<ProductDetail>) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager.initialPrefetchItemCount = products.size
 
         holder.recyclerView.setRecycledViewPool(viewPool)
         holder.recyclerView.layoutManager = layoutManager
         holder.recyclerView.adapter =
-            MainProductsListAdapter(products, context)
+            MainProductsListAdapter(products, context, presenter)
     }
 
     override fun getItemCount(): Int {

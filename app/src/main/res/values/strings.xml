@@ -2,4 +2,9 @@
     <string name="app_name">E-Shop sample</string>
     <string name="e_shop_sample">E-Shop Sample</string>
     <string name="no_products_found_in_this_category">No products found in this category</string>
+    <string name="detail_description">Description</string>
+    <string name="details_title">Details</string>
+    <string name="detail_error_screen_tv">Error while loading product details</string>
+    <string name="detail_price">Price</string>
+    <string name="detail_related">Related products</string>
 </resources>

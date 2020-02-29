@@ -11,11 +11,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.eshopsample.R
 import com.example.eshopsample.domain.model.Product
+import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.utils.DecodeHTMLUtils
 
 class MainProductsListAdapter(
-    private val products: List<Product>,
-    private val context: Context
+    private val products: List<ProductDetail>,
+    private val context: Context,
+    private val presenter: MainContract.Presenter
 ) :
     RecyclerView.Adapter<MainProductsListAdapter.ViewHolder>() {
 
@@ -26,15 +28,16 @@ class MainProductsListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        holder.itemView.setOnClickListener { presenter.onProductClicked(products[position]) }
         holder.tvProductName.text =
-            DecodeHTMLUtils.decodeString(products[position].name)
+            DecodeHTMLUtils.decodeString(products[position].productName)
 
         Glide.with(context)
             .load(products[position].original_image)
             .transition(DrawableTransitionOptions.withCrossFade())
             .error(R.drawable.baseline_broken_image_24)
             .into(holder.ivProductPhoto)
-
     }
 
     override fun getItemCount(): Int {
