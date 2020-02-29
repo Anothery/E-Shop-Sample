@@ -9,7 +9,7 @@
         android:id="@+id/categories_list_tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="sans-serif-medium"
         android:padding="8dp"
         android:textSize="20sp"
         tools:text="Category" />

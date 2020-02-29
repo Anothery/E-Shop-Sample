@@ -7,7 +7,7 @@
         <item name="colorControlNormal">@color/backgroundGray</item>
 
         <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">14sp</item>
     </style>
 
