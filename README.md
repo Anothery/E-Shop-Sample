@@ -6,3 +6,5 @@
 Работает только в онлайн режиме. При попытке использования оффлайн выводится экран с ошибкой.
 
 Технологии: Kotlin, MVP&Clean, RxJava2, Dagger2, Retrofit 2, Glide
+
+![](sampleshop_app.gif)
