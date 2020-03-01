@@ -1,6 +1,7 @@
 package com.example.eshopsample.ui.main
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eshopsample.R
 import com.example.eshopsample.domain.model.CategoryWithProducts
-import com.example.eshopsample.domain.model.Product
 import com.example.eshopsample.domain.model.ProductDetail
-import com.example.eshopsample.utils.DecodeHTMLUtils
 
 
 class MainCategoriesListAdapter(
@@ -31,7 +30,7 @@ class MainCategoriesListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvCategoryName.text =
-            DecodeHTMLUtils.decodeString(categories[position].category.name)
+            Html.fromHtml(categories[position].category.name)
 
         if (categories[position].products.isEmpty()) {
             holder.recyclerView.visibility = View.GONE

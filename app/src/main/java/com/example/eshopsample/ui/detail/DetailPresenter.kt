@@ -3,12 +3,13 @@ package com.example.eshopsample.ui.detail
 import android.util.Log
 import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.domain.usecase.UseCaseGetProductDetails
+import com.example.eshopsample.ui.base.BasePresenter
 import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
 class DetailPresenter @Inject constructor(private val useCaseGetProductDetails: UseCaseGetProductDetails) :
-    DetailContract.Presenter {
-    private var view: DetailContract.View? = null
+    DetailContract.Presenter, BasePresenter<DetailContract.View>() {
+
     private lateinit var relatedProducts: ArrayList<ProductDetail>
 
     override fun initialize(productId: Int, relatedProducts: ArrayList<ProductDetail>) {
@@ -83,13 +84,13 @@ class DetailPresenter @Inject constructor(private val useCaseGetProductDetails: 
         view?.finishActivity()
     }
 
-    override fun onAttach(view: DetailContract.View) {
-        this.view = view
+    override fun disposeSubscriptions() {
+        useCaseGetProductDetails.dispose()
     }
 
     override fun onDetach() {
-        view = null
-        useCaseGetProductDetails.dispose()
+        disposeSubscriptions()
+        super.onDetach()
     }
 
 }

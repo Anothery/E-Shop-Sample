@@ -1,6 +1,7 @@
 package com.example.eshopsample.ui.main
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.eshopsample.R
-import com.example.eshopsample.domain.model.Product
 import com.example.eshopsample.domain.model.ProductDetail
-import com.example.eshopsample.utils.DecodeHTMLUtils
 
 class MainProductsListAdapter(
     private val products: List<ProductDetail>,
@@ -30,8 +29,7 @@ class MainProductsListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.itemView.setOnClickListener { presenter.onProductClicked(products[position]) }
-        holder.tvProductName.text =
-            DecodeHTMLUtils.decodeString(products[position].productName)
+        holder.tvProductName.text = Html.fromHtml(products[position].productName)
 
         Glide.with(context)
             .load(products[position].original_image)

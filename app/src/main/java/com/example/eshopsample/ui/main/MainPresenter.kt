@@ -4,14 +4,15 @@ import android.util.Log
 import com.example.eshopsample.domain.model.CategoryWithProducts
 import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.domain.usecase.UseCaseGetCategoryWithProducts
+import com.example.eshopsample.ui.base.BasePresenter
 import io.reactivex.subscribers.DisposableSubscriber
 import java.net.UnknownHostException
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
     private val useCaseGetCategoryWithProducts: UseCaseGetCategoryWithProducts
-) : MainContract.Presenter {
-    private var view: MainContract.View? = null
+) : MainContract.Presenter, BasePresenter<MainContract.View>() {
+
     private lateinit var categories: ArrayList<CategoryWithProducts>
 
     override fun initialize(categories: ArrayList<CategoryWithProducts>) {
@@ -60,12 +61,7 @@ class MainPresenter @Inject constructor(
         view?.openDetails(productDetails.id)
     }
 
-    override fun onAttach(view: MainContract.View) {
-        this.view = view
-    }
-
-    override fun onDetach() {
-        view = null
+    override fun disposeSubscriptions() {
         useCaseGetCategoryWithProducts.dispose()
     }
 }

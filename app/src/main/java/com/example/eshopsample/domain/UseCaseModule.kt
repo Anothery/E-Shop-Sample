@@ -1,7 +1,6 @@
 package com.example.eshopsample.domain
 
 import com.example.eshopsample.domain.repository.EShopRepository
-import com.example.eshopsample.domain.usecase.UseCaseGetCategories
 import com.example.eshopsample.domain.usecase.UseCaseGetCategoryWithProducts
 import com.example.eshopsample.domain.usecase.UseCaseGetProductDetails
 import dagger.Module
@@ -23,14 +22,6 @@ class UseCaseModule {
     @Singleton
     @Named("Main")
     fun provideMainThreadScheduler(): Scheduler = AndroidSchedulers.mainThread()
-
-    @Provides
-    @Singleton
-    fun provideUseCaseGetCategories(
-        repository: EShopRepository,
-        @Named("IO") subsScheduler: Scheduler,
-        @Named("Main") postExecScheduler: Scheduler
-    ) = UseCaseGetCategories(repository, subsScheduler, postExecScheduler)
 
     @Provides
     @Singleton
