@@ -5,6 +5,7 @@ import com.example.eshopsample.domain.model.CategoryWithProducts
 import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.domain.usecase.UseCaseGetCategoryWithProducts
 import io.reactivex.subscribers.DisposableSubscriber
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
@@ -32,14 +33,27 @@ class MainPresenter @Inject constructor(
     private fun onCategoriesListArrived(list: List<CategoryWithProducts>) {
         view?.hideProgressBar()
         view?.showRecyclerView()
+        categories.clear()
         categories.addAll(list)
         view?.updateCategories()
     }
 
     private fun onCategoriesListError(throwable: Throwable) {
+        if (throwable is UnknownHostException) {
+            view?.showConnectionErrorScreen()
+        }
         throwable.message?.let {
             Log.e(this::class.java.simpleName, it)
         }
+    }
+
+    override fun onConnectionLost() {
+        view?.showConnectionErrorScreen()
+    }
+
+    override fun onConnectionAvailable() {
+        view?.hideConnectionErrorScreen()
+        updateCategories()
     }
 
     override fun onProductClicked(productDetails: ProductDetail) {

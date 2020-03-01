@@ -13,10 +13,10 @@ class DetailPresenter @Inject constructor(private val useCaseGetProductDetails: 
 
     override fun initialize(productId: Int, relatedProducts: ArrayList<ProductDetail>) {
         this.relatedProducts = relatedProducts
-        getProductDetail(productId)
+        getProductDetails(productId)
     }
 
-    private fun getProductDetail(productId: Int) {
+    private fun getProductDetails(productId: Int) {
         useCaseGetProductDetails.setProductId(productId)
         useCaseGetProductDetails.subscribe(object : DisposableSubscriber<ProductDetail>() {
             override fun onComplete() {}
@@ -67,9 +67,16 @@ class DetailPresenter @Inject constructor(private val useCaseGetProductDetails: 
         view?.hideRelatedProducts()
     }
 
-
     override fun onRelatedProductClicked(product: ProductDetail) {
         view?.openDetails(product.id)
+    }
+
+    override fun onConnectionLost() {
+        view?.showConnectionErrorScreen()
+    }
+
+    override fun onConnectionAvailable() {
+        view?.hideConnectionErrorScreen()
     }
 
     override fun onHomePressed() {
@@ -84,4 +91,5 @@ class DetailPresenter @Inject constructor(private val useCaseGetProductDetails: 
         view = null
         useCaseGetProductDetails.dispose()
     }
+
 }

@@ -12,6 +12,8 @@ interface DetailContract {
         fun hideRelatedProducts()
         fun openDetails(id: Int)
         fun showRelatedProducts()
+        fun showConnectionErrorScreen()
+        fun hideConnectionErrorScreen()
     }
 
     interface Presenter : MVPPresenter<View> {
@@ -19,5 +21,7 @@ interface DetailContract {
         fun initialize(productId: Int, relatedProducts: ArrayList<ProductDetail>)
         fun onHomePressed()
         fun onRelatedProductClicked(product: ProductDetail)
+        fun onConnectionLost()
+        fun onConnectionAvailable()
     }
 }

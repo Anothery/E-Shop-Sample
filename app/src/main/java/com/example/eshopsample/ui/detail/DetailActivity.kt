@@ -1,6 +1,8 @@
 package com.example.eshopsample.ui.detail
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
@@ -15,9 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.eshopsample.EShopApp
 import com.example.eshopsample.R
 import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.utils.PRODUCT_DETAILS_ID
+import com.example.eshopsample.utils.fadeIn
+import com.example.eshopsample.utils.fadeOut
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -33,19 +38,25 @@ class DetailActivity : DetailContract.View, AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var svDetails: ScrollView
     private lateinit var llErrorScreen: LinearLayout
+    private lateinit var llConnectionErrorScreen: LinearLayout
     private lateinit var rvRelated: RecyclerView
 
     private lateinit var adapter: DetailRelatedAdapter
     private val relatedProducts = ArrayList<ProductDetail>()
 
+    private lateinit var connectionListener: ConnectionListener
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        AndroidInjection.inject(this)
+        presenter.onAttach(this)
+
         setupViews()
         setupToolbar()
         setupRecyclerView()
-        presenter.onAttach(this)
+        registerConnectionListener()
 
         val id = intent.getIntExtra(PRODUCT_DETAILS_ID, 0)
         presenter.initialize(id, relatedProducts)
@@ -82,6 +93,7 @@ class DetailActivity : DetailContract.View, AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         rvRelated = findViewById(R.id.detail_rv_related)
         tvRelated = findViewById(R.id.detail_tv_related_label)
+        llConnectionErrorScreen = findViewById(R.id.detail_connection_error_screen)
     }
 
     private fun setupRecyclerView() {
@@ -89,6 +101,18 @@ class DetailActivity : DetailContract.View, AppCompatActivity() {
         adapter = DetailRelatedAdapter(relatedProducts, this, presenter)
         rvRelated.adapter = adapter
     }
+
+    private fun registerConnectionListener() {
+        connectionListener = ConnectionListener()
+        val app = application as EShopApp
+        app.registerConnectionListener(connectionListener)
+    }
+
+    private fun unregisterConnectionListener() {
+        val app = application as EShopApp
+        app.unregisterConnectionListener(connectionListener)
+    }
+
 
     override fun updateRelatedList() {
         adapter.notifyDataSetChanged()
@@ -136,7 +160,34 @@ class DetailActivity : DetailContract.View, AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        unregisterConnectionListener()
         presenter.onDetach()
         super.onDestroy()
+    }
+
+    override fun showConnectionErrorScreen() {
+        runOnUiThread {
+            llConnectionErrorScreen.fadeIn()
+        }
+    }
+
+    override fun hideConnectionErrorScreen() {
+        runOnUiThread {
+            llConnectionErrorScreen.fadeOut()
+        }
+    }
+
+
+    inner class ConnectionListener : ConnectivityManager.NetworkCallback() {
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            presenter.onConnectionLost()
+
+        }
+
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            presenter.onConnectionAvailable()
+        }
     }
 }

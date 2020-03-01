@@ -7,4 +7,5 @@
     <string name="detail_error_screen_tv">Error while loading product details</string>
     <string name="detail_price">Price</string>
     <string name="detail_related">Related products</string>
+    <string name="connection_error_message">It seems that you are offline. \n Please check your internet connection.</string>
 </resources>
