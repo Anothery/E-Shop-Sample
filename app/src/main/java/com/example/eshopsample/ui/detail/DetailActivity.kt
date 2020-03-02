@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Bundle
-import android.text.Html
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -23,6 +22,7 @@ import com.example.eshopsample.domain.model.ProductDetail
 import com.example.eshopsample.utils.PRODUCT_DETAILS_ID
 import com.example.eshopsample.utils.fadeIn
 import com.example.eshopsample.utils.fadeOut
+import com.example.eshopsample.utils.fromHtml
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -137,8 +137,8 @@ class DetailActivity : DetailContract.View, AppCompatActivity() {
     }
 
     override fun loadData(productDetails: ProductDetail) {
-        tvProductLabel.text = productDetails.productName
-        tvDescription.text = Html.fromHtml(productDetails.productDescription)
+        tvProductLabel.text = productDetails.productName.fromHtml()
+        tvDescription.text = productDetails.productDescription.fromHtml()
         tvPrice.text = productDetails.price_formated
         Glide
             .with(this)

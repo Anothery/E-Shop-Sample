@@ -32,6 +32,10 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation "org.mockito:mockito-inline:2.24.5"
+
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation 'androidx.core:core-ktx:1.2.0'

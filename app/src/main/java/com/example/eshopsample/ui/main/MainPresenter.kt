@@ -22,7 +22,7 @@ class MainPresenter @Inject constructor(
         updateCategories()
     }
 
-    override fun updateCategories() {
+    private fun updateCategories() {
         useCaseGetCategoryWithProducts.subscribe(object :
             DisposableSubscriber<List<CategoryWithProducts>>() {
             override fun onComplete() {}
@@ -63,5 +63,10 @@ class MainPresenter @Inject constructor(
 
     override fun disposeSubscriptions() {
         useCaseGetCategoryWithProducts.dispose()
+    }
+
+    override fun onDetach() {
+        disposeSubscriptions()
+        super.onDetach()
     }
 }

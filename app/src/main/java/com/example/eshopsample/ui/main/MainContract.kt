@@ -18,7 +18,6 @@ interface MainContract {
 
     interface Presenter : MVPPresenter<View> {
         fun initialize(categories: ArrayList<CategoryWithProducts>)
-        fun updateCategories()
         fun onProductClicked(productDetails: ProductDetail)
         fun onConnectionLost()
         fun onConnectionAvailable()
